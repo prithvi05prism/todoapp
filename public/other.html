@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #e4d6a7;
+        color: #9b2915;
+        }
+
+        body {
+        font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+        line-height: 1.6;
+        }
+        
+        h1{
+            font-size: 50px;
+        }
+
+        ul {
+        list-style: none;
+        }
+
+        ul li {
+        padding: 5px;
+        margin: 5px 0;
+        background-color: #e9b44c;
+        font-size: 30px;
+        }
+
+        header {
+        padding: 1rem;
+        text-align: center;
+        }
+
+        .container {
+        margin: auto;
+        width: 500px;
+        overflow: auto;
+        padding: 3rem 2rem;
+        }
+
+        #main {
+        padding: 2rem;
+        font-size: 20px;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <h1 align="center">Request Response Lifecycle and HTTP</h1>
+    <div align="center" id="main">
+        HTTP is a connectionless protocol where the connection is broken and re-established when the response is ready between the client and the server. 
+        It also deals with the connection status freshly every single time it re-establishes it i.e. information regarding each other persists only until 
+        the connection exists and for that connection only.<br>
+
+        A typical HTTP message consists of a start line, headers and body. A request message differs from a response message. 
+        Both computers must speak the HTTP protocol for it to work. The connection between the user and the server is established through the 
+        internet (through multiple wired and wireless connections). When a client searches for a website, the browser builds an HTTP request addressed to 
+        that URL, this request is then passed on to the client's internet service provider who deliver it to the server which decodes the message and 
+        prepares a response HTTP message.<br>
+
+        HTTP protocol was initially created for the transfer of HTML files over the internet and became the foundational protocol widely used over the 
+        World Wide Web. But this protocol is outdated because anyone can read these requests which might lead to malicious actors taking advantage. 
+        Hence HTTPS was introduced which uses a public-private key concept for encrypting the request and response.<br>
+    </div>
+
+    <div align="center">
+        <a href="index.html">Link to Main Task</a>
+    </div>
+
+
+</body>
+</html>

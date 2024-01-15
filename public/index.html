@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #e4d6a7;
+        color: #9b2915;
+        }
+
+        body {
+        font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+        line-height: 1.6;
+        }
+        
+        h1{
+            font-size: 50px;
+        }
+
+        ul {
+        list-style: none;
+        }
+
+        ul li {
+        padding: 5px;
+        margin: 5px 0;
+        background-color: #e9b44c;
+        font-size: 30px;
+        }
+
+        header {
+        padding: 1rem;
+        text-align: center;
+        }
+
+        .container {
+        margin: auto;
+        width: 500px;
+        overflow: auto;
+        padding: 3rem 2rem;
+        }
+
+        #main {
+        padding: 2rem;
+        background: #e4d6a7;
+        }
+
+        #main label {
+        display: block;
+        }
+
+        #main input[type='text'] {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        border: 5px solid black;
+        font-size: 20px;
+        }
+
+
+        .button-23 {
+        background-color: #50a2a7;
+        border: 1px solid #222222;
+        border-radius: 8px;
+        box-sizing: border-box;
+        color: #222222;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 20px;
+        margin: 0;
+        outline: none;
+        padding: 13px 23px;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        touch-action: manipulation;
+        transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+        user-select: none;
+        -webkit-user-select: none;
+        width: auto;
+        }
+
+        .button-23:focus-visible {
+        box-shadow: #222222 0 0 0 2px, rgba(255, 255, 255, 0.8) 0 0 0 4px;
+        transition: box-shadow .2s;
+        }
+
+        .button-23:hover {
+        background-color: white;
+        border-color: #000000;
+        transform: scale(.96);
+        }
+
+        .button-23:disabled {
+        border-color: #50a2a7;
+        color: #50a2a7;
+        cursor: not-allowed;
+        opacity: 1;
+        }
+
+        .button-74 {
+        background-color: #50a2a7;
+        border: 2px solid #422800;
+        border-radius: 20px;
+        box-shadow: #422800 4px 4px 0 0;
+        color: #422800;
+        cursor: pointer;
+        display: inline-block;
+        font-weight: 265;
+        font-size: 20px;
+        padding: 0 18px;
+        line-height: 20px;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        }
+
+        .button-74:hover {
+        background-color: #fff;
+        }
+
+        .button-74:active {
+        box-shadow: #422800 2px 2px 0 0;
+        transform: translate(2px, 2px);
+        }
+
+        @media (min-width: 768px) {
+        .button-74 {
+            min-width: 150px;
+            padding: 0 20px;
+        }
+        }
+
+
+
+    </style>
+</head>
+
+<body>
+    <div align="center" id="main">
+    <h1>To-Do List</h1>
+    <ul id="task-list"></ul>
+    <input type="text" id="new-task" placeholder="Add a new task">
+    <button onclick="addTask()" class="button-23">Add Task</button>
+
+    <script>
+        async function addTask() {
+        const newTaskInput = document.getElementById('new-task');
+        const newTask = newTaskInput.value;
+        if (newTask.trim() === '') {
+            alert('Task cannot be empty');
+            return;
+        }
+
+        const response = await fetch('/api/tasks', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ task: newTask }),
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            displayTasks(result.tasks);
+        } else {
+            alert('Error adding task');
+        }
+
+        newTaskInput.value = '';
+        }
+
+        async function deleteTask(id) {
+        const response = await fetch(`/api/tasks/${id}`, {
+            method: 'DELETE',
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            displayTasks(result.tasks);
+        } else {
+            alert('Error deleting task');
+        }
+        }
+
+        async function fetchTasks() {
+        const response = await fetch('/api/tasks');
+        const tasks = await response.json();
+        displayTasks(tasks);
+        }
+
+        function displayTasks(tasks) {
+        const taskList = document.getElementById('task-list');
+        taskList.innerHTML = '';
+
+        tasks.forEach((task, index) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${task} `;
+            
+            const deleteButton = document.createElement('button');
+            deleteButton.classList.add('button-74');
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = () => deleteTask(index);
+
+            listItem.appendChild(deleteButton);
+            taskList.appendChild(listItem);
+        });
+        }
+
+        fetchTasks();
+    </script>
+
+    <a href="other.html">Link to Brownie Task</a>
+    </div>
+
+
+
+</body>
+</html>
